@@ -49,4 +49,14 @@ func TestValidatePlaceWagerReq(t *testing.T) {
 	err = srv.validatePlaceWagerReq(req)
 	assert.NotNil(err)
 	assert.Equal(errs.ErrInvalidSellingPrice, err)
+
+	// correct request
+	req = &serializers.PlaceWagerReq{
+		TotalWagerValue:   100,
+		Odds:              2,
+		SellingPercentage: 20,
+		SellingPrice:      20.01,
+	}
+	err = srv.validatePlaceWagerReq(req)
+	assert.Nil(err)
 }
