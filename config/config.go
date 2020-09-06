@@ -10,7 +10,7 @@ import (
 type Config struct {
 	Host string
 	Port string
-	Env  Environment
+	Env  string
 	MySQL
 }
 
@@ -69,5 +69,6 @@ func (conf *Config) Print() {
 	fmt.Println("---------------------- Server configurations ----------------------")
 	fmt.Println("host: \t\t\t", conf.Host)
 	fmt.Println("port: \t\t\t", conf.Port)
+	fmt.Println("env: \t\t\t", conf.Env)
 	conf.printMySQLConfig()
 }

@@ -4,16 +4,13 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Environment : debug or production mode
-type Environment string
-
 const (
-	// Debug mode
-	Debug Environment = "debug"
-	// Production mode
-	Production Environment = "production"
+	// EnvDebug : Debug mode
+	EnvDebug string = "debug"
+	// EnvProduction : Production mode
+	EnvProduction string = "production"
 )
 
 func setDefaultEnvironment() {
-	viper.SetDefault("env", Debug)
+	viper.SetDefault("env", EnvDebug)
 }
