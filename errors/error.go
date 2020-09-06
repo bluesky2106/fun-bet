@@ -5,8 +5,8 @@ import "github.com/pkg/errors"
 var (
 	// ErrMySQLDBEmpty : empty DB
 	ErrMySQLDBEmpty = errors.New("empty mysql db")
-	// ErrMySQLConnErrtion : mysql connErrtion error
-	ErrMySQLConnErrtion = errors.New("mysql connErrtion error")
+	// ErrMySQLConnErrtion : mysql connection error
+	ErrMySQLConnErrtion = errors.New("mysql connection error")
 	// ErrMySQLDBAutoMigrate : mysql db auto migrate error
 	ErrMySQLDBAutoMigrate = errors.New("mysql db auto migrate error")
 	// ErrMySQLCreate : mysql create model error
@@ -20,6 +20,9 @@ var (
 )
 
 // Wrap : wrap error with a message
-func Wrap(err error, msg string) error {
-	return errors.Wrap(err, msg)
+func Wrap(err error, messages ...string) error {
+	for _, msg := range messages {
+		err = errors.Wrap(err, msg)
+	}
+	return err
 }
