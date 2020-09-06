@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	// EnvDevelopment : Debug mode
-	EnvDevelopment string = "debug"
+	// EnvDevelopment : Development mode
+	EnvDevelopment string = "development"
 	// EnvProduction : Production mode
 	EnvProduction string = "production"
 )

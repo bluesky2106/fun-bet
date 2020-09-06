@@ -11,7 +11,7 @@ var (
 	logger *zap.Logger
 )
 
-// InitLogger : print log to logs.txt for production env. Otherwise, print log to console. // params: env
+// InitLogger : print log to log.txt for production env. Otherwise, print log to console. // params: env
 func InitLogger(env string) {
 	if env != config.EnvProduction {
 		logger, _ = zap.NewDevelopment()
