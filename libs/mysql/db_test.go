@@ -16,11 +16,11 @@ var (
 
 func init() {
 	var (
-		username = "root"
-		password = "Admin123!@#"
-		dbName   = "itv_test"
+		username = "prophet"
+		password = "prophet"
+		dbName   = "fun_bet"
 		host     = "localhost"
-		port     = "3306"
+		port     = "3309"
 	)
 
 	connURL = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=UTC", username, password, host, port, dbName)
