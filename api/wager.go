@@ -23,7 +23,7 @@ func (s *Server) PlaceWager(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, wager)
+	c.JSON(http.StatusCreated, wager)
 }
 
 // BuyWager : buy a wager
@@ -47,7 +47,7 @@ func (s *Server) BuyWager(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, po)
+	c.JSON(http.StatusCreated, po)
 }
 
 // ListWager : list all wagers

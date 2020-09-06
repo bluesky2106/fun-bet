@@ -35,6 +35,17 @@ func AutoMigrate() error {
 	return nil
 }
 
+// AddForeignKeys :
+func AddForeignKeys() error {
+	if db == nil {
+		return errs.ErrMySQLDBEmpty
+	}
+
+	db.Model(&models.PurchaseOrder{}).AddForeignKey("wager_id", "wagers(id)", "CASCADE", "CASCADE")
+
+	return nil
+}
+
 // WithTransaction :
 func WithTransaction(callback func(*gorm.DB) error) error {
 	tx := db.Begin()

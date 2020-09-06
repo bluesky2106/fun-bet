@@ -2,18 +2,12 @@ package api
 
 // Routes : ...
 func (s *Server) Routes() {
-	s.g.GET("/", s.DefaultWelcome)
-	api := s.g.Group("/api")
-	{
-		api.GET("/", s.Welcome)
+	// place wager
+	s.g.POST("/wagers", s.PlaceWager)
 
-		// place wager
-		api.POST("/wagers", s.PlaceWager)
+	// buy wager
+	s.g.POST("buy/:wager_id", s.BuyWager)
 
-		// buy wager
-		api.POST("buy/:wager_id", s.BuyWager)
-
-		// list wagers
-		api.GET("/wagers", s.ListWager)
-	}
+	// list wagers
+	s.g.GET("/wagers", s.ListWager)
 }

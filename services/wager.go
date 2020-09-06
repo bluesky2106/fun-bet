@@ -1,6 +1,8 @@
 package services
 
 import (
+	"time"
+
 	"github.com/bluesky2106/fun-bet/daos"
 	errs "github.com/bluesky2106/fun-bet/errors"
 	"github.com/bluesky2106/fun-bet/models"
@@ -34,6 +36,8 @@ func (svc *WagerSvc) PlaceWager(req *serializers.PlaceWagerReq) (*models.Wager, 
 		if err != nil {
 			return errs.Wrap(err, "req.ConvertToWagerModel")
 		}
+		mod.PlacedAt = time.Now().UTC()
+		mod.CurrentSellingPrice = mod.SellingPrice
 
 		err = svc.wd.Create(tx, mod)
 		if err != nil {
@@ -52,10 +56,39 @@ func (svc *WagerSvc) PlaceWager(req *serializers.PlaceWagerReq) (*models.Wager, 
 
 // BuyWager : place a wager
 func (svc *WagerSvc) BuyWager(wagerID uint, req *serializers.BuyWagerReq) (*models.PurchaseOrder, error) {
-	return nil, nil
+	var (
+		mod *models.PurchaseOrder
+		err error
+	)
+
+	err = daos.WithTransaction(func(tx *gorm.DB) error {
+		mod = &models.PurchaseOrder{
+			WagerID:     wagerID,
+			BuyingPrice: req.BuyingPrice,
+			BoughtAt:    time.Now().UTC(),
+		}
+
+		err = svc.pod.Create(tx, mod)
+		if err != nil {
+			return errs.Wrap(err, "svc.pod.Create")
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return nil, errs.Wrap(err, "daos.WithTransaction")
+	}
+
+	return mod, nil
 }
 
 // ListWager : list all wagers
 func (svc *WagerSvc) ListWager(paging *serializers.PaginationReq) ([]*models.Wager, error) {
-	return nil, nil
+	mods, err := svc.wd.FindAllByQuery(nil, paging)
+	if err != nil {
+		return nil, errs.Wrap(err, "svc.wd.FindAllByQuery")
+	}
+
+	return mods, nil
 }

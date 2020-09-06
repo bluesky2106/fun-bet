@@ -32,6 +32,10 @@ func (svr *WagerSrv) PlaceWager(req *serializers.PlaceWagerReq) (*models.Wager, 
 
 // BuyWager : place a wager
 func (svr *WagerSrv) BuyWager(wagerID uint, req *serializers.BuyWagerReq) (*models.PurchaseOrder, error) {
+	if err := validateBuyWagerReq(req); err != nil {
+		return nil, err
+	}
+
 	return svr.wagerSvc.BuyWager(wagerID, req)
 }
 

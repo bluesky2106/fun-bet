@@ -17,7 +17,7 @@ type PlaceWagerReq struct {
 
 // BuyWagerReq : buy wager request
 type BuyWagerReq struct {
-	BuyingPrice uint `json:"buying_price"`
+	BuyingPrice float64 `json:"buying_price"`
 }
 
 // ConvertToWagerModel : convert request to wager model

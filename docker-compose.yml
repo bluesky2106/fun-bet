@@ -26,12 +26,6 @@ services:
     depends_on:
       - mysql
     restart: always
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 3s
-        max_attempts: 5
-        window: 60s
     build:
       context: .
       dockerfile: Dockerfile    

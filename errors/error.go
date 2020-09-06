@@ -29,7 +29,7 @@ var (
 	ErrInvalidSellingPercentage = errors.New("invalid selling percentage")
 
 	// ErrInvalidSellingPriceFormat : invalid selling price format
-	ErrInvalidSellingPriceFormat = errors.New("invalid selling price format")
+	ErrInvalidSellingPriceFormat = errors.New("Invalid selling price format. It must be specified as a positive decimal value to two decimal places")
 	// ErrInvalidSellingPrice : invalid selling price
 	ErrInvalidSellingPrice = errors.New("invalid selling price")
 )

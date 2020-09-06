@@ -24,3 +24,7 @@ func validatePlaceWagerReq(req *serializers.PlaceWagerReq) error {
 
 	return nil
 }
+
+func validateBuyWagerReq(req *serializers.BuyWagerReq) error {
+	return nil
+}

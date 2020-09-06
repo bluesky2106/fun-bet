@@ -65,5 +65,9 @@ func initDAO(conf *config.Config) error {
 		log.GetLogger().Error("failed to migrate database:", zap.Error(err))
 		return err
 	}
+	if err := daos.AddForeignKeys(); err != nil {
+		log.GetLogger().Error("failed to add foreign keys:", zap.Error(err))
+		return err
+	}
 	return nil
 }

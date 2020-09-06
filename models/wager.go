@@ -4,7 +4,7 @@ import "time"
 
 // Wager : wager info stored in DB
 type Wager struct {
-	ID                  uint      `gorm:"primary_key"`
+	ID                  uint      `gorm:"primary_key;column:id" json:"id"`
 	TotalWagerValue     uint      `gorm:"column:total_wager_value" json:"total_wager_value"`
 	Odds                uint      `gorm:"column:odds" json:"odds"`
 	SellingPercentage   uint      `gorm:"column:selling_percentage" json:"selling_percentage"`
