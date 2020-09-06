@@ -8,6 +8,6 @@ import (
 // IWagerService : interface
 type IWagerService interface {
 	PlaceWager(req *serializers.PlaceWagerReq) (*models.Wager, error)
-	BuyWager(req *serializers.BuyWagerReq) (*models.PurchaseOrder, error)
+	BuyWager(wagerID uint, req *serializers.BuyWagerReq) (*models.PurchaseOrder, error)
 	ListWager(paging *serializers.PaginationReq) ([]*models.Wager, error)
 }

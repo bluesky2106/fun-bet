@@ -10,7 +10,7 @@ type Wager struct {
 	SellingPercentage   uint      `gorm:"column:selling_percentage" json:"selling_percentage"`
 	SellingPrice        float64   `gorm:"column:selling_price" json:"selling_price"`
 	CurrentSellingPrice float64   `gorm:"column:current_selling_price" json:"current_selling_price"`
-	PercentageSold      uint      `gorm:"column:percentage_sold" json:"percentage_sold"`
-	AmountSold          float64   `gorm:"column:amount_sold" json:"amount_sold"`
+	PercentageSold      uint      `gorm:"default:null;column:percentage_sold" json:"percentage_sold"`
+	AmountSold          float64   `gorm:"default:null;column:amount_sold" json:"amount_sold"`
 	PlacedAt            time.Time `gorm:"column:placed_at" json:"placed_at"`
 }

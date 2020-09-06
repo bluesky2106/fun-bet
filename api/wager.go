@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/bluesky2106/fun-bet/serializers"
@@ -10,7 +11,6 @@ import (
 
 // PlaceWager : create a wager
 func (s *Server) PlaceWager(c *gin.Context) {
-
 	var req serializers.PlaceWagerReq
 	if err := c.ShouldBindJSON(&req); err != nil {
 		respondError(c, http.StatusBadRequest, err)
@@ -34,7 +34,14 @@ func (s *Server) BuyWager(c *gin.Context) {
 		return
 	}
 
-	po, err := s.wagerSrv.BuyWager(&req)
+	idStr := c.Param("wager_id")
+	wagerID, err := strconv.Atoi(idStr)
+	if err != nil {
+		respondError(c, http.StatusBadRequest, err)
+		return
+	}
+
+	po, err := s.wagerSrv.BuyWager(uint(wagerID), &req)
 	if err != nil {
 		respondError(c, http.StatusBadRequest, err)
 		return

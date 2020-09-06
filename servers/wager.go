@@ -23,12 +23,16 @@ func NewWagerServer(conf *config.Config, wagerSvc interfaces.IWagerService) *Wag
 
 // PlaceWager : create a wager
 func (svr *WagerSrv) PlaceWager(req *serializers.PlaceWagerReq) (*models.Wager, error) {
+	if err := validatePlaceWagerReq(req); err != nil {
+		return nil, err
+	}
+
 	return svr.wagerSvc.PlaceWager(req)
 }
 
 // BuyWager : place a wager
-func (svr *WagerSrv) BuyWager(req *serializers.BuyWagerReq) (*models.PurchaseOrder, error) {
-	return svr.wagerSvc.BuyWager(req)
+func (svr *WagerSrv) BuyWager(wagerID uint, req *serializers.BuyWagerReq) (*models.PurchaseOrder, error) {
+	return svr.wagerSvc.BuyWager(wagerID, req)
 }
 
 // ListWager : list all wagers

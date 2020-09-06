@@ -3,6 +3,11 @@ package errors
 import "github.com/pkg/errors"
 
 var (
+	// ErrSystem : system error
+	ErrSystem = errors.New("system error")
+)
+
+var (
 	// ErrMySQLDBEmpty : empty DB
 	ErrMySQLDBEmpty = errors.New("empty mysql db")
 	// ErrMySQLConnErrtion : mysql connection error
@@ -17,6 +22,16 @@ var (
 	ErrMySQLUpdate = errors.New("mysql update model error")
 	// ErrMySQLDelete : mysql delete model error
 	ErrMySQLDelete = errors.New("mysql delete model error")
+)
+
+var (
+	// ErrInvalidSellingPercentage : invalid selling percentage
+	ErrInvalidSellingPercentage = errors.New("invalid selling percentage")
+
+	// ErrInvalidSellingPriceFormat : invalid selling price format
+	ErrInvalidSellingPriceFormat = errors.New("invalid selling price format")
+	// ErrInvalidSellingPrice : invalid selling price
+	ErrInvalidSellingPrice = errors.New("invalid selling price")
 )
 
 // Wrap : wrap error with a message

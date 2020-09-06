@@ -67,7 +67,7 @@ func where(db *gorm.DB, filters map[string]interface{}) *gorm.DB {
 func Init(conf *config.Config) error {
 	var (
 		err     error
-		connURL = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=UTC", conf.Username, conf.Password, conf.Host, conf.Port, conf.DBName)
+		connURL = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=UTC", conf.MySQL.Username, conf.MySQL.Password, conf.MySQL.Host, conf.MySQL.Port, conf.MySQL.DBName)
 	)
 
 	db, err = mysql.Init(connURL, conf.Env)
