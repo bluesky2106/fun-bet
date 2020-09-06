@@ -8,6 +8,7 @@ Followings apps / software must be installed on your machine:
 - mysql
 - docker
 - make
+- mockgen
 
 ## How to set configurations
 
