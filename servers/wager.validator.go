@@ -7,12 +7,14 @@ import (
 	"github.com/bluesky2106/fun-bet/serializers"
 )
 
-func validatePlaceWagerReq(req *serializers.PlaceWagerReq) error {
+const eps = 1E-9
+
+func (svr *WagerSrv) validatePlaceWagerReq(req *serializers.PlaceWagerReq) error {
 	if req.SellingPercentage < 1 || req.SellingPercentage > 100 {
 		return errs.ErrInvalidSellingPercentage
 	}
 
-	if req.SellingPrice != math.Floor(req.SellingPrice*100)/100 {
+	if math.Abs(req.SellingPrice*100-math.Round(req.SellingPrice*100)) > eps {
 		return errs.ErrInvalidSellingPriceFormat
 	}
 	if req.SellingPrice <= 0 {
@@ -25,6 +27,17 @@ func validatePlaceWagerReq(req *serializers.PlaceWagerReq) error {
 	return nil
 }
 
-func validateBuyWagerReq(req *serializers.BuyWagerReq) error {
+func (svr *WagerSrv) validateBuyWagerReq(wagerID uint, req *serializers.BuyWagerReq) error {
+	if req.BuyingPrice <= 0 {
+		return errs.ErrInvalidBuyingPrice
+	}
+	wager, err := svr.wagerSvc.ReadWager(wagerID)
+	if err != nil {
+		return err
+	}
+	if req.BuyingPrice > wager.CurrentSellingPrice {
+		return errs.ErrInvalidBuyingPrice
+	}
+
 	return nil
 }

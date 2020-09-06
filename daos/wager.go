@@ -39,7 +39,7 @@ func (dao *Wager) Update(tx *gorm.DB, mod *models.Wager) error {
 }
 
 // FindByID : id
-func (dao *Wager) FindByID(id uint64) (*models.Wager, error) {
+func (dao *Wager) FindByID(id uint) (*models.Wager, error) {
 	var mod models.Wager
 	if err := db.First(&mod, id).Error; err != nil {
 		return nil, errs.Wrap(errs.ErrMySQLRead, err.Error(), "db.First")

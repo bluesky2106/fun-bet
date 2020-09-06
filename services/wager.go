@@ -1,6 +1,7 @@
 package services
 
 import (
+	"math"
 	"time"
 
 	"github.com/bluesky2106/fun-bet/daos"
@@ -57,20 +58,31 @@ func (svc *WagerSvc) PlaceWager(req *serializers.PlaceWagerReq) (*models.Wager, 
 // BuyWager : place a wager
 func (svc *WagerSvc) BuyWager(wagerID uint, req *serializers.BuyWagerReq) (*models.PurchaseOrder, error) {
 	var (
-		mod *models.PurchaseOrder
-		err error
+		wager         *models.Wager
+		purchaseOrder *models.PurchaseOrder
+		err           error
 	)
 
 	err = daos.WithTransaction(func(tx *gorm.DB) error {
-		mod = &models.PurchaseOrder{
+		purchaseOrder = &models.PurchaseOrder{
 			WagerID:     wagerID,
 			BuyingPrice: req.BuyingPrice,
 			BoughtAt:    time.Now().UTC(),
 		}
 
-		err = svc.pod.Create(tx, mod)
+		err = svc.pod.Create(tx, purchaseOrder)
 		if err != nil {
 			return errs.Wrap(err, "svc.pod.Create")
+		}
+
+		// update wager
+		wager, _ = svc.wd.FindByID(wagerID)
+		wager.CurrentSellingPrice -= req.BuyingPrice
+		wager.AmountSold += req.BuyingPrice
+		wager.PercentageSold = uint(math.Round(wager.AmountSold / wager.SellingPrice * 100))
+		err = svc.wd.Update(tx, wager)
+		if err != nil {
+			return errs.Wrap(err, "svc.wd.Update")
 		}
 
 		return nil
@@ -80,7 +92,7 @@ func (svc *WagerSvc) BuyWager(wagerID uint, req *serializers.BuyWagerReq) (*mode
 		return nil, errs.Wrap(err, "daos.WithTransaction")
 	}
 
-	return mod, nil
+	return purchaseOrder, nil
 }
 
 // ListWager : list all wagers
@@ -91,4 +103,13 @@ func (svc *WagerSvc) ListWager(paging *serializers.PaginationReq) ([]*models.Wag
 	}
 
 	return mods, nil
+}
+
+// ReadWager : read wager by its id
+func (svc *WagerSvc) ReadWager(id uint) (*models.Wager, error) {
+	mod, err := svc.wd.FindByID(id)
+	if err != nil {
+		return nil, errs.ErrWagerNotExist
+	}
+	return mod, nil
 }

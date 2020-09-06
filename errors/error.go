@@ -32,6 +32,12 @@ var (
 	ErrInvalidSellingPriceFormat = errors.New("Invalid selling price format. It must be specified as a positive decimal value to two decimal places")
 	// ErrInvalidSellingPrice : invalid selling price
 	ErrInvalidSellingPrice = errors.New("invalid selling price")
+
+	// ErrInvalidBuyingPrice : invalid buying price
+	ErrInvalidBuyingPrice = errors.New("invalid buying price")
+
+	// ErrWagerNotExist : wager not exist
+	ErrWagerNotExist = errors.New("wager not exist")
 )
 
 // Wrap : wrap error with a message
