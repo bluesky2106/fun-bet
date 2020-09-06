@@ -5,12 +5,12 @@ import (
 )
 
 const (
-	// EnvDebug : Debug mode
-	EnvDebug string = "debug"
+	// EnvDevelopment : Debug mode
+	EnvDevelopment string = "debug"
 	// EnvProduction : Production mode
 	EnvProduction string = "production"
 )
 
 func setDefaultEnvironment() {
-	viper.SetDefault("env", EnvDebug)
+	viper.SetDefault("env", EnvDevelopment)
 }
