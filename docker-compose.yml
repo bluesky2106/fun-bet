@@ -1,0 +1,47 @@
+version: "3.1"
+services:
+  mysql:
+    image: mysql:8.0.21
+    container_name: $MYSQL_CONTAINER
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_INITDB_DATABASE}
+      MYSQL_USER: ${MYSQL_INITDB_USER}
+      MYSQL_PASSWORD: ${MYSQL_INITDB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_INITDB_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_INITDB_ROOT_HOST}
+    ports:
+      - '${MYSQL_PORT}:3306'
+    expose:
+      - '${MYSQL_PORT}'
+    volumes:
+      - "./storage/mysql/dbdata:/var/lib/mysql"
+    networks:
+      - network-prophet
+
+  wager-service:
+    privileged: true
+    image: $IMAGE:$VERSION
+    container_name: $CONTAINER
+    depends_on:
+      - mysql
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 5
+        window: 60s
+    build:
+      context: .
+      dockerfile: Dockerfile    
+    command: ./server
+    ports:
+      - '${PORT}:${PORT}'
+    expose:
+      - ${PORT}
+    networks:
+      - network-prophet
+
+networks:
+  network-prophet:

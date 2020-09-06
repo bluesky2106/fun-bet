@@ -23,7 +23,9 @@ func main() {
 	log.InitLogger(conf.Env)
 
 	// Init dao
-	initDAO(conf)
+	if err := initDAO(conf); err != nil {
+		return
+	}
 	wagerDAO := daos.NewWager()
 	purchaseOrderDAO := daos.NewPurchaseOrder()
 
@@ -33,6 +35,9 @@ func main() {
 	// Init servers
 	wagerSrv := servers.NewWagerServer(conf, wagerSvc)
 
+	if conf.Env == config.EnvProduction {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	router := gin.New()
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://*", "https://*"},
@@ -51,11 +56,14 @@ func main() {
 	}
 }
 
-func initDAO(conf *config.Config) {
+func initDAO(conf *config.Config) error {
 	if err := daos.Init(conf); err != nil {
 		log.GetLogger().Error("failed to init mysql:", zap.Error(err))
+		return err
 	}
 	if err := daos.AutoMigrate(); err != nil {
 		log.GetLogger().Error("failed to migrate database:", zap.Error(err))
+		return err
 	}
+	return nil
 }

@@ -1,0 +1,5 @@
+**/.git
+**/vendor
+storage
+Dockerfile
+docker-compose.yml

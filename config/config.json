@@ -1,12 +1,12 @@
 {
-    "host": "localhost",
-    "port": "5000",
+    "host": "0.0.0.0",
+    "port": "8080",
     "mysql": {
         "dbName": "fun_bet",
         "username": "prophet",
         "password": "prophet",
-        "host": "localhost",
-        "port": "3309"
+        "host": "mysql",
+        "port": "3306"
     },
-    "env": "production"
+    "env": "development"
 }
